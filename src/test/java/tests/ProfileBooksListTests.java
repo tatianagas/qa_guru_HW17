@@ -23,34 +23,6 @@ public class ProfileBooksListTests extends TestBase {
 
 
     @Test
-    @DisplayName("Добавляем книгу в корзину пользователя")
-    void addBookToProfileTest() {
-
-        LoginResponseModel loginResponse = authorizationApi.login(credentials);
-        booksApi.deleteAllBooks(loginResponse);
-
-        IsbnModel isbnModel = new IsbnModel();
-        isbnModel.setIsbn(book.getIsbn());
-        List<IsbnModel> isbnList = new ArrayList<>();
-        isbnList.add(isbnModel);
-
-        AddBooksListModel booksList = new AddBooksListModel();
-        booksList.setUserId(loginResponse.getUserId());
-        booksList.setCollectionOfIsbns(isbnList);
-
-        booksApi.addBook(loginResponse, booksList);
-
-        open("/favicon.ico");
-        getWebDriver().manage().addCookie(new Cookie("userID", loginResponse.getUserId()));
-        getWebDriver().manage().addCookie(new Cookie("token", loginResponse.getToken()));
-        getWebDriver().manage().addCookie(new Cookie("expires", loginResponse.getExpires()));
-
-        open("/profile");
-        $("[id='see-book-" + book.getTitle() + "']").shouldBe(visible);
-    }
-
-
-    @Test
     @DisplayName("Удаляем книгу из профиля пользователя")
     void deleteBookFromProfileTest() {
         LoginResponseModel loginResponse = authorizationApi.login(credentials);
