@@ -1,31 +1,48 @@
 package api;
 
-import models.AddBooksListModel;
-import models.LoginResponseModel;
+import io.qameta.allure.Step;
+import models.*;
 
 import static io.restassured.RestAssured.given;
-import static io.restassured.http.ContentType.JSON;
+import static specs.TestSpec.*;
 
 public class BooksApi {
+
+    @Step("Удаляем все книги из профиля пользователя")
     public void deleteAllBooks(LoginResponseModel loginResponse) {
-        given()
-                .contentType(JSON)
+        given(requestSpec)
                 .header("Authorization", "Bearer " + loginResponse.getToken())
                 .queryParam("UserId", loginResponse.getUserId())
                 .when()
                 .delete("/BookStore/v1/Books")
                 .then()
-                .statusCode(204);
+                .spec(responseCod204Spec);
     }
 
+    @Step("Добавляем одну книгу в профиль пользователя")
     public void addBook(LoginResponseModel loginResponse, AddBooksListModel booksList) {
-        given()
-                .contentType(JSON)
+        given(requestSpec)
                 .header("Authorization", "Bearer " + loginResponse.getToken())
                 .body(booksList)
                 .when()
                 .post("/BookStore/v1/Books")
                 .then()
-                .statusCode(201);
+                .spec(responseCod201Spec);
     }
+
+    @Step("Удаляем одну книгу из профиля пользователя")
+    public void deleteBook(LoginResponseModel loginResponse, String isbn) {
+        DeleteBookListModel deleteRequest = new DeleteBookListModel();
+        deleteRequest.setIsbn(isbn);
+        deleteRequest.setUserId(loginResponse.getUserId());
+
+        given(requestSpec)
+                .header("Authorization", "Bearer " + loginResponse.getToken())
+                .body(deleteRequest)
+                .when()
+                .delete("/BookStore/v1/Book")
+                .then()
+                .spec(responseCod204Spec);
+    }
+
 }

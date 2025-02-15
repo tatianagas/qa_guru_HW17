@@ -1,22 +1,25 @@
 package api;
 
 
+import io.qameta.allure.Step;
 import models.CredentialsModel;
 import models.LoginResponseModel;
 
 import static io.restassured.RestAssured.given;
-import static io.restassured.http.ContentType.JSON;
+import static specs.TestSpec.requestSpec;
+import static specs.TestSpec.responseCod200Spec;
 
 public class AuthorizationApi {
 
+    @Step("Авторизация пользователя")
     public LoginResponseModel login(CredentialsModel credentials){
-        return given()
+        return given(requestSpec)
                 .body(credentials)
-                .contentType(JSON)
                 .when()
                 .post("/Account/v1/Login")
                 .then()
-                .statusCode(200)
+                .spec(responseCod200Spec)
                 .extract().as(LoginResponseModel.class);
     }
+
 }
