@@ -21,14 +21,14 @@ import static tests.TestData.credentials;
 
 public class ProfileBooksListTests extends TestBase {
 
+    BooksApi booksApi = new BooksApi();
+
 
     @Test
     @DisplayName("Удаляем книгу из профиля пользователя")
     void deleteBookFromProfileTest() {
         LoginResponseModel loginResponse = authorizationApi.login(credentials);
 
-
-        BooksApi booksApi = new BooksApi();
         booksApi.deleteAllBooks(loginResponse);
 
         IsbnModel isbnModel = new IsbnModel();

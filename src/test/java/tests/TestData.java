@@ -6,8 +6,8 @@ import models.CredentialsModel;
 
 public class TestData {
 
-    private static String login = "Tata_tata",
-            password = "Tata123!";
+    public static final String login = System.getProperty("login"),
+            password = System.getProperty("password");
 
     public static CredentialsModel credentials = new CredentialsModel(login, password);
 
