@@ -23,11 +23,11 @@ public class ProfileBooksListTests extends TestBase {
 
     BooksApi booksApi = new BooksApi();
 
-
     @Test
     @DisplayName("Удаляем книгу из профиля пользователя")
     void deleteBookFromProfileTest() {
         LoginResponseModel loginResponse = authorizationApi.login(credentials);
+
 
         booksApi.deleteAllBooks(loginResponse);
 
