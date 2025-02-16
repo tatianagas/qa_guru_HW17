@@ -4,6 +4,7 @@ import api.BooksApi;
 import models.AddBooksListModel;
 import models.IsbnModel;
 import models.LoginResponseModel;
+import models.BookModel;
 import org.openqa.selenium.Cookie;
 
 import java.util.Collections;
@@ -11,7 +12,6 @@ import java.util.Collections;
 import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 import static io.qameta.allure.Allure.step;
-import static tests.TestData.book;
 
 public class BookSteps {
 
@@ -25,7 +25,7 @@ public class BookSteps {
         booksApi.deleteAllBooks(loginResponse);
     }
 
-    public void addBookForUser(LoginResponseModel loginResponse) {
+    public void addBookForUser(LoginResponseModel loginResponse, BookModel book) {
         IsbnModel isbnModel = new IsbnModel();
         isbnModel.setIsbn(book.getIsbn());
 
@@ -36,7 +36,7 @@ public class BookSteps {
         booksApi.addBook(loginResponse, booksList);
     }
 
-    public void deleteBookForUser(LoginResponseModel loginResponse) {
+    public void deleteBookForUser(LoginResponseModel loginResponse, BookModel book) {
         booksApi.deleteBook(loginResponse, book.getIsbn());
     }
 
